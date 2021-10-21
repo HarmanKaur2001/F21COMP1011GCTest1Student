@@ -18,9 +18,7 @@ public class DBUtility {
     {
         ArrayList<NetflixShow> netflixShows = new ArrayList<>();
 
-        //String sql = "SELECT cameras.cameraId, make, model, megapixels, price, digital, mirrorless, COUNT(salesId) AS 'Units Sold' \n" +
-               // "FROM cameras LEFT JOIN cameraSales ON cameras.cameraId = cameraSales.cameraId\n" +
-                //"GROUP BY cameras.cameraId;";
+
         String sql = "select * from netflix";
 
         try(

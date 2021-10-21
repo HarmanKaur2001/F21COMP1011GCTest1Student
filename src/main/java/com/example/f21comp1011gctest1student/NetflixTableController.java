@@ -68,8 +68,7 @@ public class NetflixTableController implements Initializable {
 
     @FXML
     void applyFilter(ActionEvent event)  {
-       //movieCheckBox.selectedProperty();
-       //tvCheckBox.selectedProperty();
+
 
     }
 }
