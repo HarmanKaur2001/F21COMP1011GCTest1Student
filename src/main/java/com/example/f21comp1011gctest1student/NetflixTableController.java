@@ -61,7 +61,7 @@ public class NetflixTableController implements Initializable {
         tableView.getItems().addAll(DBUtility.getShowDetails());
         //NetflixShow netflixShow = new NetflixShow;
 
-        numOfShowsLabel.setText("Number of shows count: 103" );
+        numOfShowsLabel.setText("Number of shows/movies:" + DBUtility.getShowDetails().stream().count());
 
 
     }

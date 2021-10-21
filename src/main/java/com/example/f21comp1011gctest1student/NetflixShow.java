@@ -48,7 +48,7 @@ public class NetflixShow {
     }
 
     public void setType(String type) {
-        List<String> types = Arrays.asList("Tv show","Movie");
+        List<String> types = Arrays.asList("TV Show","Movie");
         if (types.contains(type))
             this.type = type;
         else
@@ -60,7 +60,7 @@ public class NetflixShow {
     }
 
     public void setDirector(String director) {
-        if (director.length()>=2)
+        if (director.length ()>= 2)
             this.director = director;
         else
             throw new IllegalArgumentException("the director should hold more than 2 words");
