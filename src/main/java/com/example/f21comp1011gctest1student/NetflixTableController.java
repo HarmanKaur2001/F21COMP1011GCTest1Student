@@ -82,6 +82,8 @@ public class NetflixTableController implements Initializable {
 
     @FXML
     void applyFilter(ActionEvent event)  {
+        tableView.getItems();
+
 
 
     }
