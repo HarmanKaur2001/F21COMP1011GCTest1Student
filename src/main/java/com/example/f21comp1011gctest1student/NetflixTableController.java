@@ -10,6 +10,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.TreeSet;
 
 public class NetflixTableController implements Initializable {
 
@@ -48,7 +49,6 @@ public class NetflixTableController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        selectRatingComboBox.getItems().addAll("All ratings");
 
         showIdCol.setCellValueFactory(new PropertyValueFactory<>("showId"));
         typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
@@ -58,12 +58,21 @@ public class NetflixTableController implements Initializable {
         castCol.setCellValueFactory(new PropertyValueFactory<>("cast"));
 
         tableView.getItems().addAll(DBUtility.getShowDetails("All", "All ratings"));
-        //NetflixShow netflixShow = new NetflixShow;
 
-        //numOfShowsLabel.setText("Number of shows/movies:" + DBUtility.getShowDetails().stream().count());
-
-
+        selectRatingComboBox.getItems().add("All ratings");
+        selectRatingComboBox.getItems().addAll(getRatingFromTable());
     }
+
+    private TreeSet<String> getRatingFromTable(){
+        TreeSet<String> ratings = new TreeSet<>();
+
+        for(NetflixShow show : tableView.getItems())
+            ratings.add(show.getRating());
+
+        return ratings;
+    }
+
+
 
 
     @FXML
