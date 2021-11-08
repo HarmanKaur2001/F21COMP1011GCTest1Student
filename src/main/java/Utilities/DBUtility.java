@@ -2,10 +2,7 @@ package Utilities;
 
 import com.example.f21comp1011gctest1student.NetflixShow;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class DBUtility {
@@ -14,22 +11,25 @@ public class DBUtility {
     private static String connectURL = "jdbc:mysql://localhost:3306/javaTest";
 
 
-    public static ArrayList<NetflixShow> getShowDetails()
-    {
+    public static ArrayList<NetflixShow> getShowDetails(String showType, String showRating) {
         ArrayList<NetflixShow> netflixShows = new ArrayList<>();
 
+        ResultSet resultSet = null;
 
-        String sql = "select * from netflix";
+        String sql = "select * from netflix where type  != ? AND rating != ?";
 
-        try(
+        try (
                 Connection conn = DriverManager.getConnection(connectURL, user, pw);
-                Statement statement = conn.createStatement();
-                ResultSet resultSet = statement.executeQuery(sql);
+                PreparedStatement statement = conn.prepareStatement(sql);
         )
         {
-            while (resultSet.next())
-            {
-                String type  = resultSet.getString("type");
+            statement.setString(1, showType);
+            statement.setString(2, showRating);
+            resultSet = statement.executeQuery();
+
+
+            while (resultSet.next()) {
+                String type = resultSet.getString("type");
                 String title = resultSet.getString("title");
                 String director = resultSet.getString("director");
                 String cast = resultSet.getString("cast");
@@ -37,16 +37,24 @@ public class DBUtility {
                 String showId = resultSet.getString("showId");
 
 
-
-                NetflixShow netflixShow = new NetflixShow(showId,title,type,director,cast,rating);
-                netflixShow.setShowId(showId);
+                NetflixShow netflixShow = new NetflixShow(showId, title, type, director, cast, rating);
                 netflixShows.add(netflixShow);
             }
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            if (resultSet != null)
+                try
+                {
+                    resultSet.close();
+                }
+                catch(SQLException e){
+                    e.printStackTrace();
+                }
+
         }
         return netflixShows;
+
     }
 }
+
