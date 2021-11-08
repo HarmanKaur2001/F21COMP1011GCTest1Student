@@ -92,6 +92,7 @@ public class NetflixTableController implements Initializable {
 
         if (movieCheckBox.isSelected() && tvCheckBox.isSelected())
             type = "Movie";
+        //for thhe check box
         else if (!movieCheckBox.isSelected() && tvCheckBox.isSelected())
             type = "TV Show";
 
