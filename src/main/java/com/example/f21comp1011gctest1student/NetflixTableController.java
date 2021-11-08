@@ -60,19 +60,21 @@ public class NetflixTableController implements Initializable {
         tableView.getItems().addAll(DBUtility.getShowDetails("All", "All ratings"));
 
         selectRatingComboBox.getItems().add("All ratings");
-        selectRatingComboBox.getItems().addAll(getRatingFromTable());
-        updateLabel();
+        selectRatingComboBox.getItems().addAll(getRatingFromTheTable());
 
         movieCheckBox.setSelected(true);
         tvCheckBox.setSelected(true);
 
+        updateLabel();
+
     }
 
-    private TreeSet<String> getRatingFromTable(){
+    private TreeSet<String> getRatingFromTheTable()
+    {
         TreeSet<String> ratings = new TreeSet<>();
 
-        for(NetflixShow show : tableView.getItems())
-            ratings.add(show.getRating());
+        for(NetflixShow shows : tableView.getItems())
+            ratings.add(shows.getRating());
 
         return ratings;
     }
@@ -84,19 +86,24 @@ public class NetflixTableController implements Initializable {
     void applyFilter(ActionEvent event)  {
         tableView.getItems().clear();
 
-        String type = "All";
+
         String ratingSelected =  selectRatingComboBox.getSelectionModel().getSelectedItem();
 
         if (ratingSelected == null)
-            ratingSelected = "All rating";
+            ratingSelected = "All ratings";
+        String type = "All";
 
         if (movieCheckBox.isSelected() && tvCheckBox.isSelected())
             type = "Movie";
-        //for thhe check box
+        //for the check box
+
         else if (!movieCheckBox.isSelected() && tvCheckBox.isSelected())
             type = "TV Show";
 
-            tableView.getItems().addAll(DBUtility.getShowDetails(type, ratingSelected));
+        else if (!movieCheckBox.isSelected() && !tvCheckBox.isSelected())
+            type = "none";
+
+        tableView.getItems().addAll(DBUtility.getShowDetails(type, ratingSelected));
             updateLabel();
 
 

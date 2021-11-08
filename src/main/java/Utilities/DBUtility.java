@@ -21,16 +21,16 @@ public class DBUtility {
         String sql = "select * from netflix where type  != ? AND rating != ?";
 
         //now filter is applied based on type
-        if (!showType.equals("All") && showRating.equals("All rating"))
+        if (!showType.equals("All") && showRating.equals("All ratings"))
         sql = "select * from netflix where type  = ? AND rating != ?";
 
         //now filter is applied based on type
-        if (showType.equals("All") && !showRating.equals("All rating"))
+        if (showType.equals("All") && !showRating.equals("All ratings"))
         sql = "select * from netflix where type  != ? AND rating = ?";
 
 
         //filter based on types and ratings
-        if (!showType.equals("All") && !showRating.equals("All rating"))
+        if (!showType.equals("All") && !showRating.equals("All ratings"))
         sql = "select * from netflix where type  != ? AND rating != ?";
 
 
