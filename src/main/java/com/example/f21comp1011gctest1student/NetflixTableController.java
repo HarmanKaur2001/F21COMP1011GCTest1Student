@@ -9,6 +9,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.TreeSet;
 
@@ -47,8 +48,11 @@ public class NetflixTableController implements Initializable {
     @FXML
     private Label numOfShowsLabel;
 
+    private ArrayList<NetflixShow> netflixShowArrayList;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        netflixShowArrayList = DBUtility.getShowDetails("All", "All ratings");
 
         showIdCol.setCellValueFactory(new PropertyValueFactory<>("showId"));
         typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
@@ -58,6 +62,7 @@ public class NetflixTableController implements Initializable {
         castCol.setCellValueFactory(new PropertyValueFactory<>("cast"));
 
         tableView.getItems().addAll(DBUtility.getShowDetails("All", "All ratings"));
+        tableView.getItems().addAll(netflixShowArrayList);
 
         selectRatingComboBox.getItems().add("All ratings");
         selectRatingComboBox.getItems().addAll(getRatingFromTheTable());
@@ -91,8 +96,9 @@ public class NetflixTableController implements Initializable {
 
         if (ratingSelected == null)
             ratingSelected = "All ratings";
-        String type = "All";
 
+
+        /*String type = "All";
         if (movieCheckBox.isSelected() && tvCheckBox.isSelected())
             type = "Movie";
         //for the check box
@@ -103,10 +109,32 @@ public class NetflixTableController implements Initializable {
         else if (!movieCheckBox.isSelected() && !tvCheckBox.isSelected())
             type = "none";
 
-        tableView.getItems().addAll(DBUtility.getShowDetails(type, ratingSelected));
-            updateLabel();
+        tableView.getItems().addAll(DBUtility.getShowDetails(type, ratingSelected));*/
 
 
+            //create the arraylist for the netflix shows;
+        ArrayList<NetflixShow> list = new ArrayList<>();
+        list.addAll(netflixShowArrayList);
+
+        //create the loop
+        for (NetflixShow  shows : netflixShowArrayList)
+        {
+            if (movieCheckBox.isSelected() && !tvCheckBox.isSelected() && !shows.getType().equals("Movie"))
+                list.remove(shows);
+
+            if (!movieCheckBox.isSelected() && tvCheckBox.isSelected() && !shows.getType().equals("TV Show"))
+                list.remove(shows);
+
+            if (!movieCheckBox.isSelected() && !tvCheckBox.isSelected())
+                list.remove(shows);
+
+            if (!ratingSelected.equals("All ratings") && !shows.getRating().equals(ratingSelected))
+                list.remove(shows);
+
+
+        }
+        tableView.getItems().addAll(list);
+        updateLabel();
 
     }
     private void updateLabel(){
