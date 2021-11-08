@@ -82,7 +82,21 @@ public class NetflixTableController implements Initializable {
 
     @FXML
     void applyFilter(ActionEvent event)  {
-        tableView.getItems();
+        tableView.getItems().clear();
+
+        String type = "All";
+        String ratingSelected =  selectRatingComboBox.getSelectionModel().getSelectedItem();
+
+        if (ratingSelected == null)
+            ratingSelected = "All rating";
+
+        if (movieCheckBox.isSelected() && tvCheckBox.isSelected())
+            type = "Movie";
+        else if (!movieCheckBox.isSelected() && tvCheckBox.isSelected())
+            type = "TV Show";
+
+            tableView.getItems().addAll(DBUtility.getShowDetails(type, ratingSelected));
+            updateLabel();
 
 
 

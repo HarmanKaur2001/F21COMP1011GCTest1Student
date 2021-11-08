@@ -16,13 +16,28 @@ public class DBUtility {
 
         ResultSet resultSet = null;
 
+
+        //for all the ratings and types
         String sql = "select * from netflix where type  != ? AND rating != ?";
+
+        //now filter is applied based on type
+        if (!showType.equals("All") && showRating.equals("All rating"))
+        sql = "select * from netflix where type  = ? AND rating != ?";
+
+        //now filter is applied based on type
+        if (showType.equals("All") && !showRating.equals("All rating"))
+        sql = "select * from netflix where type  != ? AND rating = ?";
+
+
+        //filter based on types and ratings
+        if (!showType.equals("All") && !showRating.equals("All rating"))
+        sql = "select * from netflix where type  != ? AND rating != ?";
+
 
         try (
                 Connection conn = DriverManager.getConnection(connectURL, user, pw);
                 PreparedStatement statement = conn.prepareStatement(sql);
-        )
-        {
+        ) {
             statement.setString(1, showType);
             statement.setString(2, showRating);
             resultSet = statement.executeQuery();
@@ -44,11 +59,9 @@ public class DBUtility {
             e.printStackTrace();
         } finally {
             if (resultSet != null)
-                try
-                {
+                try {
                     resultSet.close();
-                }
-                catch(SQLException e){
+                } catch (SQLException e) {
                     e.printStackTrace();
                 }
 
