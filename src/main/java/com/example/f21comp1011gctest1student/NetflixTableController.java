@@ -61,6 +61,11 @@ public class NetflixTableController implements Initializable {
 
         selectRatingComboBox.getItems().add("All ratings");
         selectRatingComboBox.getItems().addAll(getRatingFromTable());
+        updateLabel();
+
+        movieCheckBox.setSelected(true);
+        tvCheckBox.setSelected(true);
+
     }
 
     private TreeSet<String> getRatingFromTable(){
@@ -79,5 +84,8 @@ public class NetflixTableController implements Initializable {
     void applyFilter(ActionEvent event)  {
 
 
+    }
+    private void updateLabel(){
+        numOfShowsLabel.setText("Number of movies/shows: " +"  "+ tableView.getItems().size());
     }
 }
